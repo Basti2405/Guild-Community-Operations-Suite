@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gilden- &amp; Community-Operations Suite — Roster-Audit mit Ausfuhr</title>
-<meta name="description" content="WoW-Addon: Bereitschafts-Audit für Gilden (Verzauberungen, Schatzkammer) mit JSON-Ausfuhr für Web-Dashboards und Discord-Bots.">
+<meta name="description" content="WoW-Addon: Bereitschafts-Audit für Gilden (Enchants, Great Vault) mit JSON-Ausfuhr für Web-Dashboards und Discord-Bots.">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <style>
 /* --------------------------------------------------------------------------
@@ -111,10 +111,10 @@ ul.klar li strong { color: var(--ink); }
 <div class="held huelle">
   <span class="marke" lang="de">Gerüst · 0.1.0</span><span class="marke" lang="en">Scaffold · 0.1.0</span>
   <h1 lang="de">Roster-Audit, das den Weg nach draußen kennt</h1><h1 lang="en">A roster audit that knows the way out</h1>
-  <p class="gross" lang="de">Verzauberungen, Sockel, Buffood und Große Schatzkammer an einer Stelle — und als JSON, das ein Server ohne Umformung lesen kann.</p>
+  <p class="gross" lang="de">Enchants, Gems, Buffood und Great Vault an einer Stelle — und als JSON, das ein Server ohne Umformung lesen kann.</p>
   <p class="gross" lang="en">Enchants, gems, food and the Great Vault in one place — and as JSON a server can read without reshaping it.</p>
   <div class="warnung">
-    <p lang="de" style="margin:0"><strong>Stand: Gerüst mit tragendem Kern.</strong> Noch kein fertiges Addon, aber mehr als eine Skizze: Roster lesen, Ausrüstung prüfen, Schatzkammer lesen und die JSON-Ausfuhr <strong>funktionieren und sind getestet</strong> — 33 Logiktests, alle grün.</p>
+    <p lang="de" style="margin:0"><strong>Stand: Gerüst mit tragendem Kern.</strong> Noch kein fertiges Addon, aber mehr als eine Skizze: Roster lesen, Ausrüstung prüfen, Great Vault lesen und die JSON-Ausfuhr <strong>funktionieren und sind getestet</strong> — 33 Logiktests, alle grün.</p>
     <p lang="en" style="margin:0"><strong>Status: Scaffold with a working core.</strong> Not a finished add-on, but more than a sketch: reading the roster, checking gear, reading the vault and the JSON export <strong>work and are tested</strong> — 33 logic tests, all green.</p>
   </div>
 </div>
@@ -164,11 +164,11 @@ GuildOps_ChannelSync/    Modul – Abgleich zwischen Installationen</pre>
   <ul class="klar">
     <li lang="de"><strong>Es untersucht keine fremden Charaktere.</strong> Ohne das Sync-Modul sieht ein Offizier nur seine eigenen Charaktere — nicht die halbe Gilde.</li>
     <li lang="en"><strong>It does not inspect other characters.</strong> Without the sync module an officer sees only their own characters — not half the guild.</li>
-    <li lang="de"><strong>Die Schatzkammer anderer ist nicht abfragbar.</strong> Diese Angabe kann nur von dem kommen, der sie selbst beisteuert.</li>
+    <li lang="de"><strong>Der Great Vault anderer ist nicht abfragbar.</strong> Diese Angabe kann nur von dem kommen, der sie selbst beisteuert.</li>
     <li lang="en"><strong>Other players’ vaults are not queryable.</strong> That information can only come from the person contributing it.</li>
     <li lang="de"><strong>Es weiß nicht, wer eingeplant war.</strong> Das Spiel kennt keinen Kader. Wer gefehlt hat, ergibt sich erst im Abgleich mit einer Liste von außen.</li>
     <li lang="en"><strong>It does not know who was rostered.</strong> The game has no concept of a roster plan. Who was missing only emerges from comparing against an external list.</li>
-    <li lang="de"><strong>Sockel prüft es noch nicht.</strong> Der Itemlink verrät nicht, wie viele Sockelplätze ein Stück hat; ein leeres Feld heißt nicht zwingend „Sockel fehlt“. Lieber keine Prüfung als eine, die Lücken meldet, die keine sind.</li>
+    <li lang="de"><strong>Gems prüft es noch nicht.</strong> Der Itemlink verrät nicht, wie viele Gem-Plätze ein Stück hat; ein leeres Feld heißt nicht zwingend „Gems fehlt“. Lieber keine Prüfung als eine, die Lücken meldet, die keine sind.</li>
     <li lang="en"><strong>It does not check gems yet.</strong> The item link does not reveal how many sockets an item has; an empty field does not necessarily mean “gem missing”. Better no check than one reporting gaps that are not there.</li>
     <li lang="de"><strong>Es schickt nichts von selbst ins Netz.</strong> Das ist eine Grenze von WoW, kein fehlendes Feature.</li>
     <li lang="en"><strong>It never sends anything on its own.</strong> That is a WoW limitation, not a missing feature.</li>
