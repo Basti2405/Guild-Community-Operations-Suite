@@ -3,6 +3,8 @@
 **Roster- und Bereitschafts-Audit für Gilden — und eine Ausfuhr, die ein
 Server auch lesen kann.**
 
+*[English version](README.en.md)*
+
 > Der Kern heißt im AddOns-Verzeichnis **GuildOps**, der Slash-Befehl ist
 > `/gops`.
 

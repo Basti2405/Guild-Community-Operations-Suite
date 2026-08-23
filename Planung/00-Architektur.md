@@ -47,8 +47,8 @@ von WoW und bleibt so — es gibt kein „automatisch hochladen".
 
 Auf `intern.happy-accident-wow.de` gibt es bereits Anwesenheit, allerdings
 aus WarcraftLogs importiert. Dieses Addon ist **kein Ersatz** dafür, sondern
-eine zweite Quelle für das, was WarcraftLogs nicht sieht: Verzauberungen,
-Sockel, Schatzkammer-Stand — also Vorbereitung statt Kampfverlauf.
+eine zweite Quelle für das, was WarcraftLogs nicht sieht: Enchants,
+Gems, Great Vault-Stand — also Vorbereitung statt Kampfverlauf.
 
 Die JSON-Ausfuhr ist so gebaut, dass ein Endpunkt sie ohne Umformung lesen
 kann. Ein solcher Endpunkt existiert **noch nicht**; das wäre Arbeit auf der
@@ -60,7 +60,7 @@ Web-Seite, nicht hier.
   asynchron und schlägt oft fehl. Deshalb erhebt **jeder Spieler seinen
   eigenen** Stand — das ist die einzige Angabe, die verlässlich ist. Ohne
   ChannelSync sieht ein Offizier also nur seine eigenen Charaktere.
-- **Die Schatzkammer anderer sehen.** Nicht abfragbar. Punkt.
+- **Den Great Vault anderer sehen.** Nicht abfragbar. Punkt.
 - **Wissen, wer eingeplant war.** Das Spiel kennt keinen Kader. Wer gefehlt
   hat, ergibt sich erst aus dem Abgleich mit einer Liste von außen.
 
