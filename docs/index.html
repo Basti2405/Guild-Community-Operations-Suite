@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="de" data-lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gilden- &amp; Community-Operations Suite — Roster-Audit mit Ausfuhr</title>
+<meta name="description" content="WoW-Addon: Bereitschafts-Audit für Gilden (Verzauberungen, Schatzkammer) mit JSON-Ausfuhr für Web-Dashboards und Discord-Bots.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<style>
+/* --------------------------------------------------------------------------
+   Guild Ops - Projektseite
+
+   Bewusst ohne Schriften aus dem Netz: Die Seite soll auch dann vollstaendig
+   aussehen, wenn sie aus einem privaten Repository heraus lokal geoeffnet
+   wird - und eine Schriftart, die nachgeladen werden muss, ist eine
+   Abhaengigkeit, die genau dann fehlt.
+   -------------------------------------------------------------------------- */
+:root {
+  --grund:      #0d1114;
+  --panel:      #161c21;
+  --linie:      #33302b;
+  --ink:        #ece6dd;
+  --ink-leise:  #9a9086;
+  --akzent:     #4fc3e8;
+  --akzent2:    #4fe3b0;
+  --display: ui-serif, Georgia, "Times New Roman", serif;
+  --body:    system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:    ui-monospace, "Cascadia Code", "Consolas", monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--grund); color: var(--ink);
+  font: 400 17px/1.68 var(--body); -webkit-font-smoothing: antialiased;
+}
+/* Sprachumschaltung. Ohne JavaScript bleibt Deutsch stehen. */
+:root[data-lang="de"] [lang="en"] { display: none !important; }
+:root[data-lang="en"] [lang="de"] { display: none !important; }
+a { color: var(--akzent); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--akzent); outline-offset: 3px; }
+.huelle { width: min(1000px, 100% - 3rem); margin-inline: auto; }
+
+.kopf { display: flex; align-items: center; gap: 1rem; padding: 1.5rem 0; border-bottom: 1px solid var(--linie); }
+.kopf img { width: 40px; height: 40px; }
+.wortmarke { font: 700 1.25rem/1 var(--display); letter-spacing: .01em; }
+.sprache { margin-left: auto; display: flex; gap: .25rem; }
+.sprache button {
+  font: 500 .8rem var(--mono); color: var(--ink-leise); background: none;
+  border: 1px solid var(--linie); border-radius: 6px; padding: .3rem .6rem; cursor: pointer;
+}
+.sprache button:hover { color: var(--ink); border-color: var(--akzent); }
+
+.held { padding: 4rem 0 3rem; border-bottom: 1px solid var(--linie); }
+.held h1 { font: 700 clamp(2rem, 5vw, 3rem)/1.1 var(--display); margin: 0 0 1rem; }
+.held p.gross { font-size: 1.2rem; color: var(--ink-leise); max-width: 60ch; margin: 0 0 1.5rem; }
+
+.marke {
+  display: inline-block; font: 500 .75rem/1 var(--mono); letter-spacing: .1em;
+  text-transform: uppercase; color: var(--akzent2);
+  border: 1px solid var(--akzent2); border-radius: 999px; padding: .4rem .8rem; margin-bottom: 1.5rem;
+}
+.warnung {
+  border-left: 3px solid var(--akzent2); background: var(--panel);
+  padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.5rem 0; font-size: .95rem;
+}
+.warnung strong { color: var(--akzent2); }
+
+section { padding: 3rem 0; border-bottom: 1px solid var(--linie); }
+h2 { font: 700 1.6rem/1.2 var(--display); margin: 0 0 1.5rem; }
+h3 { font: 600 1.1rem/1.3 var(--body); margin: 2rem 0 .5rem; color: var(--akzent); }
+
+.raster { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+.karte { background: var(--panel); border: 1px solid var(--linie); border-radius: 10px; padding: 1.25rem; }
+.karte h4 { font: 600 1rem var(--body); margin: 0 0 .5rem; color: var(--akzent); }
+.karte p { margin: 0; font-size: .93rem; color: var(--ink-leise); }
+.karte code { font: .85rem var(--mono); color: var(--akzent2); }
+
+pre {
+  background: var(--panel); border: 1px solid var(--linie); border-radius: 10px;
+  padding: 1.1rem; overflow-x: auto; font: .85rem/1.6 var(--mono); color: var(--ink);
+}
+code { font-family: var(--mono); font-size: .9em; }
+p code, li code { background: var(--panel); padding: .12em .4em; border-radius: 4px; color: var(--akzent2); }
+
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .93rem; }
+th, td { text-align: left; padding: .6rem .8rem; border-bottom: 1px solid var(--linie); vertical-align: top; }
+th { font: 600 .8rem var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-leise); }
+td code { color: var(--akzent2); }
+
+ul.klar { list-style: none; padding: 0; }
+ul.klar li { padding-left: 1.5rem; position: relative; margin-bottom: .75rem; color: var(--ink-leise); }
+ul.klar li::before { content: "\2013"; position: absolute; left: 0; color: var(--akzent); }
+ul.klar li strong { color: var(--ink); }
+
+.fuss { padding: 2.5rem 0 4rem; color: var(--ink-leise); font-size: .9rem; }
+.fuss a { color: var(--ink-leise); }
+
+</style>
+</head>
+<body>
+<header class="kopf huelle">
+  <img src="logo.svg" alt="">
+  <span class="wortmarke">Guild Ops</span>
+  <div class="sprache">
+    <button type="button" data-setzt="de">DE</button>
+    <button type="button" data-setzt="en">EN</button>
+  </div>
+</header>
+<main>
+<div class="held huelle">
+  <span class="marke" lang="de">Gerüst · 0.1.0</span><span class="marke" lang="en">Scaffold · 0.1.0</span>
+  <h1 lang="de">Roster-Audit, das den Weg nach draußen kennt</h1><h1 lang="en">A roster audit that knows the way out</h1>
+  <p class="gross" lang="de">Verzauberungen, Sockel, Buffood und Große Schatzkammer an einer Stelle — und als JSON, das ein Server ohne Umformung lesen kann.</p>
+  <p class="gross" lang="en">Enchants, gems, food and the Great Vault in one place — and as JSON a server can read without reshaping it.</p>
+  <div class="warnung">
+    <p lang="de" style="margin:0"><strong>Stand: Gerüst mit tragendem Kern.</strong> Noch kein fertiges Addon, aber mehr als eine Skizze: Roster lesen, Ausrüstung prüfen, Schatzkammer lesen und die JSON-Ausfuhr <strong>funktionieren und sind getestet</strong> — 33 Logiktests, alle grün.</p>
+    <p lang="en" style="margin:0"><strong>Status: Scaffold with a working core.</strong> Not a finished add-on, but more than a sketch: reading the roster, checking gear, reading the vault and the JSON export <strong>work and are tested</strong> — 33 logic tests, all green.</p>
+  </div>
+</div>
+<section class="huelle">
+  <h2 lang="de">Aufbau</h2><h2 lang="en">Structure</h2>
+  <p lang="de">Mehrere eigenst&auml;ndige Addons in einem Repository. Jedes Modul tr&auml;gt <code>## Dependencies: GuildOps</code> und l&auml;sst sich <strong>einzeln abw&auml;hlen</strong> &ndash; wer es nicht braucht, hat seinen Quelltext nicht im Speicher.</p>
+  <p lang="en">Several standalone add-ons in one repository. Each module declares <code>## Dependencies: GuildOps</code> and can be <strong>disabled individually</strong> &ndash; what you do not need is not loaded.</p>
+  <pre>GuildOps/                Kern  – Audit, Speicher, JSON-Ausfuhr
+GuildOps_Attendance/     Modul – Anwesenheit
+GuildOps_LootAudit/      Modul – Item-Verteilung
+GuildOps_ChannelSync/    Modul – Abgleich zwischen Installationen</pre>
+  <p lang="de">Der Kern kennt <strong>kein Modul namentlich</strong>. Er ruft nur Haken auf; wer sich angemeldet hat, wird gefragt. Ein Modul, das seine Voraussetzung nicht findet oder in einem Haken wirft, wird stillgelegt &ndash; nicht der Kern.</p>
+  <p lang="en">The core knows <strong>no module by name</strong>. It only calls hooks. A module that fails its check, or throws inside a hook, is disabled &ndash; the core is not.</p>
+</section>
+<section class="huelle">
+  <h2 lang="de">Was es tut</h2><h2 lang="en">What it does</h2>
+  <div class="raster">
+    <div class="karte">
+      <h4 lang="de">Ausfuhr als JSON</h4><h4 lang="en">JSON export</h4>
+      <p lang="de"><code>/gops export</code> öffnet ein Textfeld zum Kopieren. Nicht die SavedVariables — das ist Lua-Quelltext, den ein Server ausführen müsste. Schlüssel sind sortiert, damit sich zwei Stände vergleichen lassen.</p><p lang="en"><code>/gops export</code> opens a text box to copy from. Not the SavedVariables — that is Lua source a server would have to execute. Keys are sorted so two snapshots can be compared.</p>
+    </div>
+    <div class="karte">
+      <h4 lang="de">Eigener Stand statt Fremd-Inspektion</h4><h4 lang="en">Own state, not inspection</h4>
+      <p lang="de"><code>Inspect</code> geht nur in Reichweite und schlägt oft fehl. Deshalb erhebt jeder Spieler seinen eigenen Stand — die einzige Angabe, die verlässlich ist.</p><p lang="en"><code>Inspect</code> only works in range and often fails. So every player records their own state — the only reliable source.</p>
+    </div>
+    <div class="karte">
+      <h4 lang="de">Roster, das den Unterschied kennt</h4><h4 lang="en">A roster that knows the difference</h4>
+      <p lang="de">Ein noch nicht geliefertes Gildenroster gibt <code>nil</code> zurück, nicht eine leere Liste. Sonst meldet das Addon „0 Mitglieder“ und schickt den Offizier auf die falsche Fährte.</p><p lang="en">A roster that has not arrived yet returns <code>nil</code>, not an empty list. Otherwise the add-on reports “0 members” and sends the officer looking in the wrong place.</p>
+    </div>
+  </div>
+</section>
+<section class="huelle">
+  <h2 lang="de">Befehle</h2><h2 lang="en">Commands</h2>
+  <table><thead><tr>
+    <th lang="de">Befehl</th><th lang="en">Command</th>
+    <th lang="de">Wirkung</th><th lang="en">Effect</th>
+  </tr></thead><tbody>
+    <tr><td><code>/gops</code></td><td lang="de">Fenster anzeigen oder verstecken</td><td lang="en">Show or hide the window</td></tr>
+    <tr><td><code>/gops export</code></td><td lang="de">Daten als JSON zum Kopieren</td><td lang="en">Data as JSON, ready to copy</td></tr>
+    <tr><td><code>/gops doctor</code></td><td lang="de">Selbstdiagnose</td><td lang="en">Self-check</td></tr>
+  </tbody></table>
+</section>
+<section class="huelle">
+  <h2 lang="de">Was es <em>nicht</em> kann</h2><h2 lang="en">What it can<em>not</em> do</h2>
+  <p lang="de">Ehrlichkeit an dieser Stelle ist wichtiger als eine vollst&auml;ndig aussehende Funktionsliste.</p>
+  <p lang="en">Being honest here matters more than a feature list that looks complete.</p>
+  <ul class="klar">
+    <li lang="de"><strong>Es untersucht keine fremden Charaktere.</strong> Ohne das Sync-Modul sieht ein Offizier nur seine eigenen Charaktere — nicht die halbe Gilde.</li>
+    <li lang="en"><strong>It does not inspect other characters.</strong> Without the sync module an officer sees only their own characters — not half the guild.</li>
+    <li lang="de"><strong>Die Schatzkammer anderer ist nicht abfragbar.</strong> Diese Angabe kann nur von dem kommen, der sie selbst beisteuert.</li>
+    <li lang="en"><strong>Other players’ vaults are not queryable.</strong> That information can only come from the person contributing it.</li>
+    <li lang="de"><strong>Es weiß nicht, wer eingeplant war.</strong> Das Spiel kennt keinen Kader. Wer gefehlt hat, ergibt sich erst im Abgleich mit einer Liste von außen.</li>
+    <li lang="en"><strong>It does not know who was rostered.</strong> The game has no concept of a roster plan. Who was missing only emerges from comparing against an external list.</li>
+    <li lang="de"><strong>Sockel prüft es noch nicht.</strong> Der Itemlink verrät nicht, wie viele Sockelplätze ein Stück hat; ein leeres Feld heißt nicht zwingend „Sockel fehlt“. Lieber keine Prüfung als eine, die Lücken meldet, die keine sind.</li>
+    <li lang="en"><strong>It does not check gems yet.</strong> The item link does not reveal how many sockets an item has; an empty field does not necessarily mean “gem missing”. Better no check than one reporting gaps that are not there.</li>
+    <li lang="de"><strong>Es schickt nichts von selbst ins Netz.</strong> Das ist eine Grenze von WoW, kein fehlendes Feature.</li>
+    <li lang="en"><strong>It never sends anything on its own.</strong> That is a WoW limitation, not a missing feature.</li>
+  </ul>
+</section>
+<section class="huelle">
+  <h2 lang="de">Entwickeln</h2><h2 lang="en">Development</h2>
+  <pre>tools/junction.cmd    <span style="color:var(--ink-leise)"># verbindet alle Addon-Ordner mit dem AddOns-Verzeichnis</span>
+./tools/test.sh       <span style="color:var(--ink-leise)"># Syntax, .toc-Abgleich und Logiktests (baut sich Lua 5.1)</span></pre>
+  <p lang="de">Die Tests laufen <strong>ohne WoW</strong>: Die Spielumgebung wird so weit nachgebaut, wie der Kern sie anfasst. Der JSON-Schreiber ist eigener Code mit echten Fallstricken — Maskierung, Liste gegen Objekt, <code>nan</code> und <code>inf</code>, stabile Reihenfolge. Genau deshalb ist er getestet.</p>
+  <p lang="en">Tests run <strong>without WoW</strong>: the game environment is stubbed out as far as the core touches it. The JSON writer is hand-written code with real pitfalls — escaping, array vs object, <code>nan</code> and <code>inf</code>, stable ordering. Which is exactly why it is tested.</p>
+</section>
+<footer class="fuss huelle">
+  <p lang="de">MIT-Lizenz &middot; Basti2405 &middot; Diese Seite geh&ouml;rt zum Repository und wird aus <code>docs/</code> ausgeliefert.</p>
+  <p lang="en">MIT licence &middot; Basti2405 &middot; This page lives in the repository and is served from <code>docs/</code>.</p>
+</footer>
+</main>
+<script>
+// Sprachumschalter. Ohne JavaScript bleibt die Seite auf Deutsch - sie ist
+// dann vollstaendig lesbar, nur eben einsprachig.
+document.querySelectorAll('.sprache button').forEach(function (knopf) {
+  knopf.addEventListener('click', function () {
+    document.documentElement.setAttribute('data-lang', knopf.dataset.setzt);
+  });
+});
+</script>
+</body>
+</html>

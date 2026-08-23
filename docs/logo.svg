@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Guild Ops">
+  <!-- Schild mit Haken: Bereitschaft geprueft. -->
+  <rect width="64" height="64" rx="14" fill="#161c21"/>
+  <path d="M32 12l16 6v14c0 10-7 17-16 20-9-3-16-10-16-20V18z" fill="none" stroke="#4fc3e8" stroke-width="3"/>
+  <path d="M24 33l6 6 12-13" fill="none" stroke="#4fe3b0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

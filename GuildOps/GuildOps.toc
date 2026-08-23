@@ -1,0 +1,49 @@
+## Interface: 120100
+# Passt zu Live-Patch 12.1.0 (Midnight).
+
+## Title: Guild Ops
+## Notes: Roster and readiness audit for guilds: enchants, gems, food and Great Vault, in one exportable place.
+## Notes-deDE: Roster- und Bereitschafts-Audit fuer Gilden: Verzauberungen, Sockel, Buffood und Grosse Schatzkammer, an einer exportierbaren Stelle.
+## Author: Basti2405
+## Version: 0.1.0
+## IconTexture: Interface\Icons\Achievement_GuildPerk_EverybodysFriend
+
+# Account-weit: Ein Offizier schaut sich das Ergebnis auf dem Charakter an,
+# auf dem er gerade ist - die Erhebung stammt aber von allen. Ausserdem
+# ueberlebt so die Ausfuhr einen Charakterwechsel.
+## SavedVariables: GuildOpsDB
+
+## X-License: MIT
+## X-Category: Guild
+# ## X-Curse-Project-ID:
+# ## X-Wago-ID:
+# ## X-WoWI-ID:
+
+# ---------------------------------------------------------------------------
+# Ladereihenfolge. Kompat zuerst - die Datei legt den globalen Namensraum an,
+# ohne den die Sprachdateien und alle Module ins Leere greifen wuerden.
+# ---------------------------------------------------------------------------
+
+# Fremdbibliotheken: bewusst keine. Siehe die Begruendung in der .pkgmeta.
+
+Logik\Kompat.lua
+
+Locales\enUS.lua
+Locales\deDE.lua
+
+Logik\Speicher.lua
+
+# Gibt die erhobenen Daten als JSON heraus. Steht vor dem Modulsystem,
+# weil Module einen Ausfuhr-Haken bekommen und der Schreiber dann steht.
+Logik\Ausfuhr.lua
+
+# Muss VOR den Modul-Addons stehen. Dass das klappt, sichert
+# ## Dependencies: GuildOps  in deren .toc - WoW laedt Abhaengigkeiten zuerst.
+Logik\Modulsystem.lua
+
+# Beantwortet  /gops doctor .
+Logik\Diagnose.lua
+
+UI\Fenster.lua
+
+Core.lua
