@@ -4,7 +4,8 @@
 ## Title: Guild Ops
 ## Notes: Roster and readiness audit for guilds: enchants, gems, food and Great Vault, in one exportable place.
 ## Notes-deDE: Roster- und Bereitschafts-Audit fuer Gilden: Verzauberungen, Sockel, Buffood und Grosse Schatzkammer, an einer exportierbaren Stelle.
-## Author: Basti2405
+## Author: Euta (euta-Antonidas)
+## X-Discord: https://discord.gg/xeyHu7DdC
 ## Version: 0.1.0
 ## IconTexture: Interface\Icons\Achievement_GuildPerk_EverybodysFriend
 

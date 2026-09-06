@@ -74,3 +74,7 @@ tools/junction.cmd
 ## Lizenz
 
 MIT, siehe [LICENSE](LICENSE).
+
+---
+
+Addon von **Euta (euta-Antonidas)** · Discord: https://discord.gg/xeyHu7DdC

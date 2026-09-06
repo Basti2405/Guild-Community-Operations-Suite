@@ -3,7 +3,8 @@
 ## Title: Guild Ops |cff40c0f0[ChannelSync]|r
 ## Notes: Background data exchange with other installations over a hidden addon channel.
 ## Notes-deDE: Datenabgleich im Hintergrund mit anderen Installationen ueber einen verdeckten Addon-Kanal.
-## Author: Basti2405
+## Author: Euta (euta-Antonidas)
+## X-Discord: https://discord.gg/xeyHu7DdC
 ## Version: 0.1.0
 ## IconTexture: Interface\Icons\Spell_Nature_Purge
 
